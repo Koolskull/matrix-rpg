@@ -397,13 +397,14 @@ Godot Approach:
 Use Godot's Control nodes (e.g., Panel, TabContainer, OptionButton) to build the dialog box.
 
 Implement toggling menus with GDScript:
-gdscript
+```gdscript
 
 func _on_menu_selected(menu: String) -> void:
     match menu:
         "navigation": $MenuContent.show_navigation()
         "wallet": $MenuContent.show_wallet()
         "settings": $MenuContent.show_settings()
+```
 
 Populate room navigation with Matrix room data via API calls.
 
@@ -444,12 +445,12 @@ Use Monero's 25-word seed phrase for user accounts (more robust than Matrix reco
 Generate/recover wallets using a Monero library (via custom module or external API).
 
 Example (pseudocode in GDScript):
-gdscript
+```gdscript
 
 func create_wallet() -> String:
     var wallet = MoneroAPI.create_wallet()
     return wallet.get_mnemonic() # 25-word seed
-
+```
 Store game progress in Matrix rooms or IPFS, tied to the seed.
 
 3. Godot Implementation Plan
@@ -502,7 +503,7 @@ Main (Node)
 │   │   ├── TileMap (TileMap)
 
 GDScript for UI:
-gdscript
+```gdscript
 
 extends Node
 
@@ -517,13 +518,13 @@ func _on_room_selected(index: int) -> void:
 func _on_chat_input(text: String) -> void:
     MatrixAPI.send_message(room_id, text)
     $UI/ChatPanel/Messages.append_bbcode("[user]: " + text)
-
+```
 Step 3: Matrix Integration
 HTTP-Based:
 Use Godot's HTTPRequest node to call Matrix API endpoints (e.g., login, join rooms, send messages).
 
 Example:
-gdscript
+```gdscript
 
 func connect_to_matrix(user: String, password: String) -> void:
     var http = $HTTPRequest
@@ -532,7 +533,7 @@ func connect_to_matrix(user: String, password: String) -> void:
         "user": user,
         "password": password
     }))
-
+```
 Custom Module (Advanced):
 Write a GDNative module in C++ using libolm or matrix-rust-sdk.
 
@@ -545,15 +546,15 @@ Step 4: RPG Window
 Create a Node2D for levels with a TileMap for the environment and KinematicBody2D for the player.
 
 Set the Viewport to 640x448:
-gdscript
+```gdscript
 
 $GameViewport.size = Vector2(640, 448)
-
+```
 Load pixel art sprites and tilemaps from the assets/ folder.
 
 Game Logic:
 Handle player movement:
-gdscript
+```gdscript
 
 extends KinematicBody2D
 
@@ -564,12 +565,14 @@ func _physics_process(delta: float) -> void:
     if Input.is_action_pressed("ui_right"):
         velocity.x += 1
     move_and_slide(velocity * speed)
+```
 
 Trigger achievements (e.g., reaching a goal):
-gdscript
+```gdscript
 
 func _on_goal_reached() -> void:
     MoneroAPI.send_reward(player_address, 1) # 1 piconero
+```
 
 Level Switching: Load new scenes based on Matrix room changes.
 
@@ -578,7 +581,7 @@ HTTP-Based:
 Use HTTPRequest to interact with a Monero wallet RPC (e.g., monero-wallet-rpc).
 
 Example:
-gdscript
+```gdscript
 
 func send_piconero(address: String, amount: int) -> void:
     var http = $HTTPRequest
@@ -588,6 +591,7 @@ func send_piconero(address: String, amount: int) -> void:
         "method": "transfer",
         "params": {"destinations": [{"amount": amount, "address": address}]}
     }))
+```
 
 Custom Module (Advanced):
 Use monero-cpp in a GDNative module for wallet management.
@@ -601,11 +605,12 @@ Decentralization: Run a lightweight Monero node or connect to a trusted remote n
 Step 6: Account Management
 Seed Phrase:
 Generate Monero seed phrases via the Monero API:
-gdscript
+```gdscript
 
 func create_wallet() -> String:
     var wallet = MoneroAPI.create_wallet()
     return wallet.mnemonic # 25-word seed
+```
 
 Allow recovery by prompting users to input their seed.
 

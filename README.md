@@ -2,6 +2,14 @@
 
 A decentralized RPG game built on Matrix protocol with Monero integration for achievements and rewards.
 
+I would like to be able to essentially build a MMORPG that has play-to-earn qualities on as minimal an interface as possible. 2D-style like zelda, or maybe moreso like VMK (Virtual Magic Kingdom).
+
+Each room would represent a physical space for your character to walk around in, and would have it's own live chat where you talk with other players.
+
+This game would be mostly social with minigames connecting the experience with colorful elements.
+
+I would like to possibly have some rooms be different maybe with threeJS for 3D experiences, but that is not the most important version for early implementation.
+
 ## Project Overview
 
 This project combines several key technologies:
